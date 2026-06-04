@@ -3,8 +3,18 @@
 A 100% client-side web tool that generates a Windows launcher (`StartServer.bat`)
 and a `serverconfig.txt` for running a Terraria Dedicated Server.
 
-Configure your world name/path, max players, port, password, and character
-security, then download the files and drop them into your Terraria Server folder.
+Configure your world name/path, max players, port, password, character security,
+and an **auto-restart-on-crash** option, then download the files and drop them
+into your Terraria Server folder.
+
+## Hosting it on a home PC (and joining from iPad)
+
+See **[HOW-TO-HOST.md](HOW-TO-HOST.md)** for the full step-by-step: installing the
+dedicated server, running the auto-restart launcher, port forwarding, and joining
+from an iPad/mobile by IP.
+
+The **Auto-restart** option is the fix for "my server keeps crashing" — the
+launcher relaunches the server automatically a few seconds after any crash.
 
 ## Run it
 

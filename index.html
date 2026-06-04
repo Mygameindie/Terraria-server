@@ -252,6 +252,14 @@
                     <span>Enable Server-Side Character Security (Recommended)</span>
                 </label>
             </div>
+
+            <div class="form-group">
+                <label class="checkbox-group">
+                    <input type="checkbox" id="autoRestart" checked>
+                    <span>Auto-restart if the server crashes (Recommended)</span>
+                </label>
+                <small style="color: #888;">If the server crashes or stops, it relaunches automatically after a few seconds.</small>
+            </div>
         </div>
 
         <!-- Preview & Download -->
@@ -296,11 +304,12 @@
     const port = document.getElementById('port');
     const password = document.getElementById('password');
     const secure = document.getElementById('secure');
+    const autoRestart = document.getElementById('autoRestart');
     const previewBox = document.getElementById('previewBox');
     const displayPort = document.getElementById('displayPort');
 
     // Update preview on any input change
-    const inputs = [worldPath, maxPlayers, port, password, secure];
+    const inputs = [worldPath, maxPlayers, port, password, secure, autoRestart];
     inputs.forEach(input => {
         input.addEventListener('input', updatePreview);
     });
@@ -308,6 +317,26 @@
     function getBatContent() {
         const secFlag = secure.checked ? '-secure' : '';
         const passVal = password.value ? password.value : '';
+
+        const launchBlock = autoRestart.checked
+            ? `:loop
+echo Starting server...
+TerrariaServer.exe -world "%WORLD%" -maxplayers %PLAYERS% -port %PORT% -password "%PASSWORD%" %SECURE_FLAG%
+
+echo.
+echo ==========================================
+echo  Server stopped or CRASHED.
+echo  Restarting in 5 seconds...
+echo  (Close this window to stop the server.)
+echo ==========================================
+timeout /t 5 /nobreak >nul
+goto loop`
+            : `echo Starting server...
+TerrariaServer.exe -world "%WORLD%" -maxplayers %PLAYERS% -port %PORT% -password "%PASSWORD%" %SECURE_FLAG%
+
+echo.
+echo Server has been stopped.
+pause`;
 
         return `@echo off
 title Terraria Dedicated Server
@@ -339,15 +368,10 @@ if not exist "TerrariaServer.exe" (
     echo ERROR: Cannot find TerrariaServer.exe!
     echo Place this .bat file in the Terraria Server folder.
     pause
-    exit
+    exit /b
 )
 
-echo Starting server...
-TerrariaServer.exe -world "%WORLD%" -maxplayers %PLAYERS% -port %PORT% -password "%PASSWORD%" %SECURE_FLAG%
-
-echo.
-echo Server has been stopped.
-pause`;
+${launchBlock}`;
     }
 
     function getConfigContent() {
