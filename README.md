@@ -10,14 +10,16 @@ security, then download the files and drop them into your Terraria Server folder
 
 It's a single static `index.html` — just open it in any browser, no build step.
 
-## Hosting (GitHub Pages)
+## Hosting (GitHub Pages) — one-time setup
 
-This repo is set up to be served as a static site. To publish it:
+This repo serves as a static site. Publishing takes one click from the repo owner
+(only the owner can turn Pages on the first time):
 
 1. Go to **Settings → Pages** in the GitHub repository.
 2. Under **Build and deployment → Source**, choose **Deploy from a branch**.
-3. Select the branch containing `index.html` and the `/ (root)` folder, then **Save**.
-4. Your page will be live at `https://<user>.github.io/terraria-server/`.
+3. Branch: **`claude/terraria-server-generator-Jb5vh`** (or `main`), Folder: **`/ (root)`** → **Save**.
+4. Wait ~1 minute. Your page goes live at:
+   `https://mygameindie.github.io/Terraria-server/`
 
 ## Privacy
 
