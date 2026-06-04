@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terraria Server Opener Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terraria-green: #4CAF50;
+            --terraria-dark-green: #2E7D32;
+            --terraria-brown: #5D4037;
+            --bg-dark: #1a1a1a;
+            --bg-panel: #252525;
+            --text-light: #e0e0e0;
+            --accent-gold: #FFD700;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            background-image: radial-gradient(#2a2a2a 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 4px solid var(--terraria-brown);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--terraria-green);
+            font-size: 1.8rem;
+            text-shadow: 3px 3px 0px #000;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--accent-gold);
+            font-size: 1.4rem;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: var(--bg-panel);
+            border: 3px solid var(--terraria-brown);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.5);
+        }
+
+        .panel h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            border-bottom: 2px dashed var(--terraria-brown);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--terraria-green);
+            font-size: 1.3rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 2px solid #444;
+            color: #fff;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--terraria-green);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-group input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--terraria-green);
+        }
+
+        .preview-box {
+            background: #0d0d0d;
+            border: 2px solid #444;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #0f0;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: var(--terraria-green);
+            color: #000;
+            box-shadow: 0 4px 0 var(--terraria-dark-green);
+        }
+
+        .btn-secondary {
+            background: var(--accent-gold);
+            color: #000;
+            box-shadow: 0 4px 0 #B8860B;
+        }
+
+        button:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 transparent;
+        }
+
+        .instructions {
+            margin-top: 40px;
+            background: var(--bg-panel);
+            border: 3px solid var(--terraria-brown);
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        .instructions h3 {
+            color: var(--terraria-green);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>⚒️ Terraria Server Generator</h1>
+        <p class="subtitle">Configure and download your server files instantly.</p>
+    </header>
+
+    <div class="main-grid">
+        <!-- Input Form -->
+        <div class="panel">
+            <h2>⚙️ Server Configuration</h2>
+
+            <div class="form-group">
+                <label for="worldPath">World Name or Full Path</label>
+                <input type="text" id="worldPath" placeholder="MyWorld.wld" value="MyWorld.wld">
+                <small style="color: #888;">Leave as filename if in default Documents folder, otherwise use full path (e.g., C:\Users\Name\...\Worlds\MyWorld.wld)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="maxPlayers">Max Players</label>
+                <input type="number" id="maxPlayers" min="1" max="255" value="8">
+            </div>
+
+            <div class="form-group">
+                <label for="port">Server Port</label>
+                <input type="number" id="port" min="1024" max="65535" value="7777">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Server Password (Optional)</label>
+                <input type="text" id="password" placeholder="Leave blank for no password">
+            </div>
+
+            <div class="form-group">
+                <label class="checkbox-group">
+                    <input type="checkbox" id="secure" checked>
+                    <span>Enable Server-Side Character Security (Recommended)</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Preview & Download -->
+        <div class="panel">
+            <h2>📜 Generated Launcher (.bat)</h2>
+            <div class="preview-box" id="previewBox"></div>
+
+            <div class="btn-group">
+                <button class="btn-primary" onclick="downloadBat()">⬇️ Download .bat</button>
+                <button class="btn-secondary" onclick="downloadConfig()">⬇️ Download config.txt</button>
+            </div>
+            <p style="margin-top: 15px; font-size: 1rem; color: #888; text-align: center;">
+                Place the downloaded file(s) in your Terraria Server folder.
+            </p>
+        </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="instructions">
+        <h3>📖 How to Use</h3>
+        <ol>
+            <li>Install <span class="highlight">Terraria Server</span> from the "Tools" section of your Steam Library.</li>
+            <li>Configure your settings on the left. The preview on the right updates automatically.</li>
+            <li>Click <span class="highlight">Download .bat</span> and place the file inside your Terraria Server installation folder.</li>
+            <li>Double-click the downloaded <span class="highlight">StartServer.bat</span> file to launch your server!</li>
+            <li><strong>To let friends join:</strong> You must <span class="highlight">Port Forward</span> port <span class="highlight" id="displayPort">7777</span> (TCP/UDP) in your router settings to your PC's local IP address.</li>
+        </ol>
+
+        <h3>🔒 Privacy Note</h3>
+        <p>This tool runs 100% in your browser. No data, passwords, or IP addresses are sent to any server.</p>
+    </div>
+
+    <div class="footer">
+        <p>Not affiliated with Re-Logic. Terraria is a trademark of Re-Logic.</p>
+    </div>
+</div>
+
+<script>
+    // Get DOM elements
+    const worldPath = document.getElementById('worldPath');
+    const maxPlayers = document.getElementById('maxPlayers');
+    const port = document.getElementById('port');
+    const password = document.getElementById('password');
+    const secure = document.getElementById('secure');
+    const previewBox = document.getElementById('previewBox');
+    const displayPort = document.getElementById('displayPort');
+
+    // Update preview on any input change
+    const inputs = [worldPath, maxPlayers, port, password, secure];
+    inputs.forEach(input => {
+        input.addEventListener('input', updatePreview);
+    });
+
+    function getBatContent() {
+        const secFlag = secure.checked ? '-secure' : '';
+        const passVal = password.value ? password.value : '';
+
+        return `@echo off
+title Terraria Dedicated Server
+color 0B
+
+:: ==========================================
+:: SERVER CONFIGURATION
+:: ==========================================
+set WORLD=${worldPath.value}
+set PLAYERS=${maxPlayers.value}
+set PORT=${port.value}
+set PASSWORD=${passVal}
+set SECURE_FLAG=${secFlag}
+
+:: ==========================================
+:: DO NOT EDIT BELOW THIS LINE
+:: ==========================================
+echo ==========================================
+echo   Terraria Dedicated Server Launcher
+echo ==========================================
+echo World:    %WORLD%
+echo Players:  %PLAYERS%
+echo Port:     %PORT%
+echo Password: %PASSWORD%
+echo ==========================================
+echo.
+
+if not exist "TerrariaServer.exe" (
+    echo ERROR: Cannot find TerrariaServer.exe!
+    echo Place this .bat file in the Terraria Server folder.
+    pause
+    exit
+)
+
+echo Starting server...
+TerrariaServer.exe -world "%WORLD%" -maxplayers %PLAYERS% -port %PORT% -password "%PASSWORD%" %SECURE_FLAG%
+
+echo.
+echo Server has been stopped.
+pause`;
+    }
+
+    function getConfigContent() {
+        const secVal = secure.checked ? '1' : '0';
+        return `world=${worldPath.value}
+maxplayers=${maxPlayers.value}
+port=${port.value}
+password=${password.value}
+secure=${secVal}
+`;
+    }
+
+    function updatePreview() {
+        previewBox.textContent = getBatContent();
+        displayPort.textContent = port.value;
+    }
+
+    function downloadFile(filename, text) {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    function downloadBat() {
+        downloadFile('StartServer.bat', getBatContent());
+    }
+
+    function downloadConfig() {
+        downloadFile('serverconfig.txt', getConfigContent());
+    }
+
+    // Initialize preview on load
+    updatePreview();
+</script>
+
+</body>
+</html>
